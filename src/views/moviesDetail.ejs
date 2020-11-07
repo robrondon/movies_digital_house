@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/movies/search" method="POST">
+        <input type="text" name="search" placeholder="Busqueda de Peliculas">
+        <label for="order">Ordenar</label>
+        <select name="order" id="order"> 
+          <option value="titleasc"> Titulo A-Z</option>
+          <option value="titledesc">Titulo Z-A</option>
+          <option value="ratingasc">Menor Rating</option>
+          <option value="ratingdesc">Mayor Rating</option>
+       </select>
+        <button type="submit" value="Search">Buscar</button>
+      </form>
+    <div class="movie_detail_container">
+    <div class="detail_description">
+        <div class="detail_name">
+            <h2><%= movie.title %></h2>
+        </div>
+        <div class="movie_description"> 
+            <h3>Descripcion: </h3>
+            <p>Rating: <%= movie.rating %> </p>
+            <p>Premios: <%= movie.awards %> </p>
+            <% if (movie.length == null ) { %>
+                <p>Duracion: Desconocida </p>
+            <% } else { %> 
+            <p>Duracion: <%= movie.length %> min </p>
+            <% } %> 
+            <p>Fecha de Estreno: <%= movie.release_date %> </p>
+        </div>
+        <div class="movies_detail_buttons">
+            <a href="/movies">MODIFICAR</a>
+            <form action="" method="POST">
+                <a href="/movies">BORRAR</a>
+            </form>
+        </div>
+    </div>  
+</div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <title>Document</title>
+</head>
+<body>
+         <main class="">
+             <article>
+            <% actors.forEach(actor => { %>
+                    <div class="">
+                      <a href="/actors/detail/<%= actor.id %>"><h2> <%= actor.first_name%> <%= actor.last_name %> </h2> </a>
+                    </div>             
+             </article>
+            <% }) %>
+        </main>
+</body>
+</html>
