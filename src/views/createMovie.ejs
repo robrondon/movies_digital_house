@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+  <%- include('partials/head', {title: 'Creacion de Pelicula'})%> 
+  </head>
+  <body>
+    <header>
+      <%- include('partials/header') %> 
+     </header>
+  <main class="container">
+    <div class="create_box">
+    <h2> Agregar Pelicula </h2>
+      <form action="/movies/create" method="POST">
+
+        <% if (typeof errors != 'undefined') {  %>
+          <% errors.forEach(error => { %>
+           <p><%= error.msg %> </p>
+          <% }) %>
+        <% } %>
+
+       <label for="title"> Titulo </label>
+       <input type="text" name="title" placeholder="Titulo de la Pelicula" value="<%= typeof old != 'undefined' ? old.title : "" %>">
+   
+       <label for="rating"> Rating </label>
+       <input type="number" name="rating" placeholder="Rating" min="1" max="10" step="0.1" value="<%= typeof old != 'undefined' ? old.rating : "" %>">
+
+       <label for="awards"> Premios </label>
+       <input type="number" name="awards" placeholder="Cantidad de Premios" value="<%= typeof old != 'undefined' ? old.awards : "" %>">
+
+       <label for="release_date"> Fecha de Estreno </label>
+       <input type="date" name="release_date" placeholder="Fecha de Estreno" value="<%= typeof old != 'undefined' ? old.release_date : "" %>">
+
+       <label for="length"> Duracion </label>
+       <input type="number" name="length" placeholder="Duracion" value="<%= typeof old != 'undefined' ? old.length : "" %>">
+
+       <label for="genre_id"> Generos </label>
+       <select name="genre_id">
+        <% genres.forEach(genre => { %>
+          <option value="<%= typeof old != 'undefined' ? old.genre_id : genre.id %>"> <%= genre.name %> </option>
+        <% }) %>
+       </select>
+
+       <label for=""> Actores </label>
+       <select name="actors" multiple>
+        <% actors.forEach(actor => { %>
+          <option value="<%= typeof old != 'undefined' ? old.actors : actor.id %>"> <%= actor.first_name %> <%= actor.last_name %> </option>
+        <% }) %>
+       </select>
+
+       <!-- <label for="images"> Imagen </label>
+       <input type="file" name="images" > -->
+       <button type="submit">Crear Pelicula</button>
+
+  </form>
+</div>
+</main>
+<%- include('partials/footer') %> 
+</body>
+</html>

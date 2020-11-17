@@ -1,28 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <%- include('partials/head', {title: 'Busqueda de Peliculas'}) %> 
 </head>
 <body>
-    <form action="/movies/search" method="POST">
-        <input type="text" name="search" placeholder="Busqueda de Peliculas">
-        <label for="order">Ordenar</label>
-        <select name="order" id="order"> 
-          <option value="titleasc"> Titulo A-Z</option>
-          <option value="titledesc">Titulo Z-A</option>
-          <option value="ratingasc">Menor Rating</option>
-          <option value="ratingdesc">Mayor Rating</option>
-       </select>
-        <button type="submit" value="Search">Buscar</button>
-      </form>
-    <div class="movie_detail_container">
-    <div class="detail_description">
-        <div class="detail_name">
-            <h2><%= movie.title %></h2>
-        </div>
-        <div class="movie_description"> 
+  <header>
+  <!-- nav bar -->
+  <%- include('partials/header') %> 
+  </header>
+    <div class="movies_container">
+        <h2><%= movie.title %></h2>
+        <div class="movie_description">
             <h3>Descripcion: </h3>
             <p>Rating: <%= movie.rating %> </p>
             <p>Premios: <%= movie.awards %> </p>
@@ -31,15 +19,33 @@
             <% } else { %> 
             <p>Duracion: <%= movie.length %> min </p>
             <% } %> 
-            <p>Fecha de Estreno: <%= movie.release_date %> </p>
+            <p>Fecha de Estreno: <%= movie.release_date %> </p>   
+             <% genres.forEach(genre => { %>
+             <% if (movie.GenreId === genre.id) { %>
+                <p>Genero: <a href="/genres/detail/<%= genre.id %>"> <%= genre.name %> </a> </p>
+             <% } %>
+            <% }) %>  
+            <p><strong> Actores </strong>
+                <ul>
+                    <% actors.forEach(actor => { %>
+                        <% if (movie.actors.some(movieActor => movieActor.id === actor.id)) { %>
+                          <a href="/actors/detail/<%= actor.id %>"><li> <%= actor.first_name + ' ' + actor.last_name %> </li></a>
+                        <% } %>
+                      <% }) %>
+                </ul>
+            </p>    
+                   
+
         </div>
         <div class="movies_detail_buttons">
-            <a href="/movies">MODIFICAR</a>
-            <form action="" method="POST">
-                <a href="/movies">BORRAR</a>
+            <a href="/movies/edit/<%= movie.id %> ">
+                <button>MODIFICAR</button>
+            </a>
+            <form action="/movies/delete/<%= movie.id %>?_method=DELETE" method="POST">
+                <button type="submit">BORRAR</button>
             </form>
-        </div>
-    </div>  
-</div>
+        </div> 
+    </div>
+    <%- include('partials/footer') %> 
 </body>
 </html>

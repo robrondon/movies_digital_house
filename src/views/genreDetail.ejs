@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head', {title: 'genre.name'}) %> 
+</head>
+<body>
+  <header>
+  <!-- nav bar -->
+  <%- include('partials/header') %> 
+  </header>
+    
+  <div class="movies_container">
+    <h2><%= genre.name %></h2>
+    <div class="movie_description"> 
+            <ul>
+                <% movies.forEach(movie => { %>
+                    <% if (movie.GenreId === genre.id) { %>
+                      <li><a href="/movies/detail/<%= movie.id %>"><%= movie.title %></a></li>
+                    <% } %>
+                  <% }) %>
+            </ul>
+    
+    </div>
+</div>
+<%- include('partials/footer') %> 
+</body>
+</html>

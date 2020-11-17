@@ -1,10 +1,13 @@
-const {Movie} = require('../database/models');
+const {Movie, Genre, Actor} = require('../database/models');
 const {Op} = require('sequelize');
+const {validationResult} = require('express-validator');
 
 module.exports = {
     all: async (req,res) =>{
         try {
-            const movies = await Movie.findAll();
+            const movies = await Movie.findAll(
+                {include: ['Genre', 'actors']}
+                );
             res.render('moviesIndex', {movies});
         } catch(error){
             res.send('Oopss direccion equivocada');
@@ -14,8 +17,10 @@ module.exports = {
     detail: async (req,res) =>{
         try {
             const {id} = req.params;
-            const movie = await Movie.findByPk(id);
-            res.render('moviesDetail', {movie})
+            const movie = await Movie.findByPk(id, {include: ['Genre', 'actors']});
+            const genres = await Genre.findAll();
+            const actors = await Actor.findAll();
+            res.render('moviesDetail', {movie, genres, actors})
         } catch(error){
             res.send('Oopss direccion equivocada');
             console.log(error);
@@ -60,7 +65,8 @@ module.exports = {
     
                     },
                      order: [
-                        ['title', 'DESC']                ]
+                        ['title', 'DESC']                
+                    ]
                 })
                 res.render('moviesSearch', {movies});
             } else if (order == 'ratingasc'){
@@ -70,36 +76,151 @@ module.exports = {
         
                         },
                         order: [
-                            ['rating', 'ASC']                ]
+                            ['rating', 'ASC']              
+                        ]
                     })
                     res.render('moviesSearch', {movies});
-            }  else if(order == 'ratingdesc'){
+            } else if(order == 'ratingdesc'){
                     let movies = await Movie.findAll({
                           where: {
                             title: {[Op.like] : '%' + search + '%'}
                                     },
                             order: [
-                                        ['rating', 'DESC']                ]
+                                        ['rating', 'DESC']     
+                            ]
                                 })
-                          res.render('moviesSearch', {movies});
+                          res.render('moviesSearch', {movies});          
                                     
-            }  else{
+            } else if(order == 'dateasc'){
+                let movies = await Movie.findAll({
+                      where: {
+                        title: {[Op.like] : '%' + search + '%'}
+                                },
+                        order: [
+                                    ['release_date', 'ASC']     
+                        ]
+                            })
+                      res.render('moviesSearch', {movies});
+
+            } else if(order == 'datedesc'){
+                let movies = await Movie.findAll({
+                      where: {
+                        title: {[Op.like] : '%' + search + '%'}
+                                },
+                        order: [
+                                    ['release_date', 'DESC']     
+                        ]
+                            })
+                      res.render('moviesSearch', {movies});
+            
+            } else{
+                if(search == ''){
+                    res.redirect('/movies');
+                } else{
                     let movies = await Movie.findAll({
                         where: {
                             title: {[Op.like] : '%' + search + '%'}
         
                         },
                         order: [
-                            ['title', 'ASC']                ]
+                            ['title', 'ASC']    
+                        ]
                     })
-                     {res.render('moviesSearch', {movies});
+                    if(movies.length == 0){
+                        res.render('searchNotFound');                   
+                    }else{
+                     res.render('moviesSearch', {movies});
             }
-        }
-            console.log(req.body)
+        } 
+    }           
         } catch(error){
             res.send('Oopss direccion equivocada');
             console.log(error);
         }
+    },
+    create: async (req,res) => {
+        try{
+            const genres = await Genre.findAll();
+            const actors = await Actor.findAll();
 
+            res.render('createMovie', {genres, actors});
+
+        } catch(error){
+            res.send('Oopss direccion equivocada');
+            console.log(error);
+        }
+    },
+    store: async (req,res) => {
+        try {
+            const results = validationResult(req);
+
+            if (results.isEmpty()) {
+
+            const newMovie = await Movie.create({
+                ...req.body
+                // images : req.file.filename
+            });
+            await newMovie.addActors(req.body.actors);
+            res.redirect('/movies');
+            
+        } else{
+            const genres = await Genre.findAll();
+            const actors = await Actor.findAll();
+            res.render('createMovie', {genres, actors, errors: results.errors, old: req.body})
+        }
+        } catch (error) {
+            res.send(error);
+            console.log(error);
+        }
+    },
+    edit: async (req,res) => {
+        try{
+            const {id} = req.params;
+            const movie = await Movie.findByPk(id, {include: ['Genre', 'actors']});
+            const genres = await Genre.findAll();
+            const actors = await Actor.findAll();
+            res.render('editMovie', {movie, genres, actors});
+            
+        } catch(error){
+            res.send('Oopss direccion equivocada');
+            console.log(error);
+        }
+    },
+    update: async (req,res) => {
+        try {
+            const results = validationResult(req);
+
+            if (results.isEmpty()) {
+
+            const {id} = req.params;
+            const movie = await Movie.findByPk(id, {include: ['Genre', 'actors']});
+            await movie.removeActors(movie.actors);
+            await movie.addActors(req.body.actors);
+            await movie.update({
+                ...req.body,
+                // images : req.file.filename
+            });
+            res.redirect('/movies');
+            } else{
+            const genres = await Genre.findAll();
+            const actors = await Actor.findAll();
+            res.render('editMovie', {movie, genres, actors, errors: results.errors, old: req.body})
+            }
+        } catch (error) {
+            res.send('Oopss direccion equivocada');
+            console.log(error); 
+        }
+    },
+    delete: async (req,res) => {
+        try {
+            const {id} = req.params;
+            const movie = await Movie.findByPk(id, {include: ['actors']});
+            await movie.removeActors(movie.actors);
+            await movie.destroy();
+            res.redirect('/movies')
+        } catch (error) {
+            res.send('Oopss direccion equivocada');
+            console.log(error)
+        }
     }
-};
+}

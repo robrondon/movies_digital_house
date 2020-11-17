@@ -1,7 +1,7 @@
 const {sequelize, DataTypes} = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    const genre = sequelize.define('Genre',{
+    const Genre = sequelize.define('Genre',{
         name: { 
             type: DataTypes.STRING,
             allowNull: false
@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },  
         active: { 
-            type: DataTypes.BOOLEAN
+            type: DataTypes.INTEGER
         }
     },{
         indexes: [
@@ -21,5 +21,10 @@ module.exports = (sequelize, DataTypes) => {
             }
         ]
     })
-    return genre;
+    Genre.associate = (models => {
+        Genre.hasMany(models.Movie,{
+            as: 'Movie'
+        })
+    })
+    return Genre;
 }

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+  <%- include('partials/head', {title: 'Editando la pelicula '+ movie.title})%> 
+  </head>
+  <body>
+    <header>
+      <%- include('partials/header') %> 
+     </header>
+  <main class="container">
+    <div class="create_box">
+    <h2> Editando <%= movie.title %>  </h2>
+      <form action="/movies/edit/<%= movie.id %>?_method=PUT" method="POST">
+
+       <label for="title"> Titulo </label>
+       <input type="text" name="title" value="<%= movie.title %>">
+   
+       <label for="rating"> Rating </label>
+       <input type="number" name="rating" value="<%= movie.rating %>" min="1" max="10" step="0.1">
+
+       <label for="awards"> Premios </label>
+       <input type="number" name="awards" value="<%= movie.awards %>">
+
+       <label for="release_date"> Fecha de Estreno </label>
+       <input type="date" name="release_date" value="<%= movie.release_date %>">
+       
+       <label for="length"> Duracion </label>
+       <input type="number" name="length" value="<%= movie.length%>">
+
+       <label for="genre_id"> Generos </label>
+       <select name="genre_id">
+          <% genres.forEach(genre => { %>
+           <% if (movie.GenreId === genre.id) { %>          
+             <option value="<%= genre.id %>" selected> <%= genre.name %> </option>
+           <% } else { %>
+             <option value="<%= genre.id %>"> <%= genre.name %> </option>
+          <% }}) %>
+       </select>
+       <label for=""> Actores </label>
+       <select name="actors" multiple>
+        <% actors.forEach(actor => { %>
+          <% if (movie.actors.some(movieActor => movieActor.id === actor.id)) { %>
+            <option value="<%= actor.id %>" selected> <%= actor.first_name + ' ' + actor.last_name %> </option>
+          <% } else { %>
+            <option value="<%= actor.id %>"> <%= actor.first_name + ' ' + actor.last_name %> </option> 
+        <% }}) %>
+       </select>
+
+       <button type="submit">Editar Pelicula</button>
+
+  </form>
+</div>
+</main>
+<%- include('partials/footer') %> 
+</body>
+</html>

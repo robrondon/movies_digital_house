@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head', {title: 'actor.first_name actor.first_name'}) %> 
+</head>
+<body>
+  <header>
+  <!-- nav bar -->
+  <%- include('partials/header') %> 
+  </header>
+    
+  <div class="movies_container">
+    <h2><%= actor.first_name + ' ' + actor.last_name%></h2>
+    <h3>Rating: <%= actor.rating %> </h3>
+    <div class="movie_description"> 
+      <ul>
+        <% actor.movies.forEach(movie => { %>
+         <li><a href="/movies/detail/<%= movie.id %>"><%= movie.title %></a></li>
+        <% }) %>
+      </ul>
+    </div>
+</div>
+<%- include('partials/footer') %> 
+</body>
+</html>

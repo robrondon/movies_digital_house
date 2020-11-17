@@ -1,0 +1,35 @@
+    <nav>
+        <!-- logo -->
+        <a href="/" class="logo">
+          <img src="/images/digital-movies.png" alt="logo">
+        </a>
+        <!-- menu_btn -->
+        <input type="checkbox" class="menu_btn" id="menu_btn">
+        <label class="menu_icon" for="menu_btn">
+          <span class="nav_icon"></span>
+        </label>
+        <!-- menu -->
+        <ul class="menu">
+          <li><a href="/">Home</a></li>
+          <li><a href="/movies">Películas</a></li>
+          <li><a href="/movies/new">Ultimos Estrenos</a></li>
+          <li><a href="/movies/recommended">Recomendadas</a></li>
+          <li><a href="/movies/create">Agregar Pelicula</a></li>
+        </ul>
+        <!-- search bar -->
+        <div class="search">
+        <form action="/movies/search" method="POST">
+          <input type="text" name="search" placeholder="Busqueda de Películas">
+          <select name="order"> 
+            <option value=""> Ordenar: </option>
+            <option value="titleasc"> Titulo A-Z</option>
+            <option value="titledesc">Titulo Z-A</option>
+            <option value="ratingasc">Menor Rating</option>
+            <option value="ratingdesc">Mayor Rating</option>
+            <option value="dateasc">Menos Recientes</option>
+            <option value="datedesc">Mas Recientes</option>
+         </select>
+          <button type="submit" value="search">Buscar</button>
+        </form>
+      </div>
+

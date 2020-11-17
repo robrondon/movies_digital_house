@@ -1,7 +1,7 @@
 const {sequelize, DataTypes} = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    const actor = sequelize.define('Actor',{
+    const Actor = sequelize.define('Actor',{
         first_name: { 
             type: DataTypes.STRING,
             allowNull: false
@@ -17,5 +17,12 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER.UNSIGNED
         }
     })
-    return actor;
-}
+    Actor.associate = (models => {
+    Actor.belongsToMany(models.Movie, {
+        as: 'movies',
+        through: 'actor_movie'
+    })
+    
+    })
+    return Actor;
+};

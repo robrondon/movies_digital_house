@@ -2,12 +2,12 @@ const {Movie, Genre, Actor} = require('../database/models');
 const {Op} = require('sequelize');
 
 module.exports = {
-    detail :  async (req,res) => {
+    detail: async (req,res) => {
         try {
             const {id} = req.params;   
-            const actor = await Actor.findByPk(id, {include: ['movies']});
-            // res.json(actor);
-            res.render('actorDetail', {actor});
+            const genre = await Genre.findByPk(id, {include: ['Movie']});
+            const movies = await Movie.findAll();
+            res.render('genreDetail', {genre, movies});
         } catch (error) {
             res.send('Oopss direccion equivocada');
             console.log(error);

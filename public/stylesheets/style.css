@@ -2,14 +2,292 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: whitesmoke;
+  background-color: white;
+  font-family: 'Rubik', sans-serif;
+}
+/******** HEADER ********/
+ul{
+  list-style: none;
+}
+a{
+  text-decoration: none;
+}
+nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.04);
+  background-color: #ffffff;
+  height: 9em;
+}
+.logo img{
+  height: 15em;
+}
+nav .menu{
+  display: flex
+}
+nav .menu li a{
+  height: 40px;
+  line-height: 43px;
+  margin: 0;
+  padding: 0px 22px;
+  display: flex;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: #585858;
+  letter-spacing: 1px;
+}
+nav .menu_btn{
+  display: none;
+}
+.search{
+  width: 250px;
+  height: 40px;
+  background-color: rgba(245,245,245,0.8);
+  /* display: flex;
+  justify-content: space-evenly;
+  align-items: center; */
+  border-radius: 20px;
+  /* padding: 0px 20px; */
+}
+.search input, select{
+  width: 100%;
+  height: 30px;
+  border-style: dotted;
+  border-radius: 5px;
+  outline: none;
+  background-color: transparent;
+}
+.search i {
+  color: #3a3a3a;
 }
 
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+nav .menu li a:hover{
+  background-color: #242424;
+  color: #ffffff;
+  box-shadow: 5px 10px 30px rgba(53,53,53,0.1);
+  transition: all ease 0.2s;
+}
+@media(max-width: 1100px){
+  nav{
+    justify-content: space-between;
+    height: 70px;
+    padding: 0px 10px;
+  }
+  nav .menu{
+    display: none;
+    position: absolute;
+    top: 65px;
+    left: 0px;
+    background: #fff;
+    border-bottom: 4px solid #242424;
+    width: 100%;
+    padding: 0%;
+    margin: 0px;
+  }
+  .menu li{
+    width: 100%;
+  }
+  nav .menu li a{
+    width: 100%;
+    height: 40px;
+    align-items: center;
+    margin: 0px;
+    padding: 25px;
+    border: 1px solid rgba(38,38,38,0.03);
+  }
+  nav .menu_icon{
+    cursor: pointer;
+    float: right;
+    padding: 28px 20px;
+    position: relative;
+    user-select: none;
+    display: block;
+  }
+  nav .menu_icon .nav_icon{
+    background-color: #333333;
+    display: block;
+    height: 2px;
+    position: relative;
+    transition: background 0.2s ease-out;
+    width: 18px;
+  }
+  nav .menu_icon .nav_icon:before,
+
+  nav .menu_icon .nav_icon:after{
+    background: #333333;
+    content: '';
+    display: block;
+    height: 100%;
+    position: absolute;
+    transition: all ease 0.2s;
+    width: 100%;
+  }
+  nav .menu_icon .nav_icon:before{
+    top: 5px;
+  }
+  nav .menu_icon .nav_icon:after{
+    top: -5px;
+  }
+  nav .menu_btn:checked ~ .menu_icon .nav_icon{
+    background: transparent;
+  }
+  nav .menu_btn:checked ~ .menu_icon .nav_icon:before{
+    transform: rotate(-45deg);
+    top: 0;
+  }
+  nav .menu_btn:checked ~ .menu_icon .nav_icon:after{
+    transform: rotate(45deg);
+    top: 0;
+  }
+  nav .menu_btn{
+    display: none;
+  }
+  nav .menu_btn:checked ~ .menu{
+    display: block;
+  }
+}
+/* *** FOOTER *** */
+.footer{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid rgba(0,0,0,0.01);
+  margin-top: 50px;
+}
+.footer p{
+  color: #5e5e5e;
+  margin: 10px 0px;
+  font-size: 0.9rem;
+}
+/***** INDEX *****/
+.title{
+  margin: 150px;
+  text-align: center;
+  padding: 20px;
+}
+/******** LISTA DE PELICULAS ***********/
+.movies_container{
+  text-align: center;
+  padding: 40px;
+}
+.movies_heading h2{
+  font-weight: 400;
+  background-color: rgba(0,0,0,0.01);
+  border: 1px solid rgba(0,0,0,0.06);
+  font-size: 1.7rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  width: 100%;
+}
+.movies_box{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  box-shadow: rgba(0,0,0,0.02);
+}
+.movie_item{
+  width: 100%;
+  margin: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+  border-top: 3px solid #292929;
+}
+.movie_item img{
+  width: 80%;
 }
 
-a {
-  color: #00B7FF;
+.movie_title{
+  margin: 5px;
+  font-size: 17px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #3a3a3a;
+}
+.movie_item:hover{
+  transform: translateY(-10px);
+  transition: all ease 0.2s;
+
+}.movie_item h3:hover{
+  background-color: #f9bc50;
+  color: white;
+  border-radius: 10px;
+}
+@media(max-width: 768px){
+  .movies_box{
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+@media(max-width: 425px){
+  .movies_box{
+    grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+  }
+}
+
+/* Detail Page */
+.movies_detail_buttons button{
+  background-color: #f9bc50;
+  border: none;
+  color: white;
+  font-size: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 5px;
+  padding: revert;
+}
+/*  Create/ Edit Forms */
+.container{
+  display: flex;
+  justify-content: center;
+}
+.create_box{
+  width: 320px;
+  background: gainsboro;
+  color: #585858; 
+  border-radius: 5%;
+  margin: 40px 0px;
+  text-align: center;
+}
+.create_box .h2{
+  margin-bottom: 15px;
+  position: relative;
+  bottom: 200px;
+  padding:100px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+.create_box label{
+  margin: 5px;
+  padding: 5px;
+  font-weight: bold;
+  display: block;
+  text-align: center;
+}
+.create_box input{
+  width: 70%;
+  text-align: center;
+  border-radius: 10px;
+  border-style: dotted;
+}
+.create_box select{
+  width: 70%;
+  border-radius: 10px;
+  border-style: dotted;
+  text-align-last:center;
+}
+.create_box button{
+  background-color: #f9bc50;
+  border: none;
+  color: white;
+  font-size: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 10px;
+  padding: revert;
 }

@@ -1,11 +1,19 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
+<html lang="en">
+<head>
+  <%- include('partials/head') %> 
+</head>
   <body>
+    <header>
+    <!-- nav bar -->
+    <%- include('partials/header') %> 
+   </header>
+   <main class="movies_container">
+    <div class="title">
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <p>Bienvenidos a <%= title %></p>
+  </div>
+</main>
+  <%- include('partials/footer') %> 
   </body>
 </html>

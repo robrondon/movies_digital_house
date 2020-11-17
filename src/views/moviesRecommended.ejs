@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/stylesheets/style.css">
-    <title>Document</title>
+  <%- include('partials/head', {title: ' Peliculas Recomendadas'}) %> 
 </head>
 <body>
-  <form action="/movies/search" method="POST">
-    <input type="text" name="search" placeholder="Busqueda de Peliculas">
-    <label for="order">Ordenar</label>
-    <select name="order" id="order"> 
-      <option value="titleasc"> Titulo A-Z</option>
-      <option value="titledesc">Titulo Z-A</option>
-      <option value="ratingasc">Menor Rating</option>
-      <option value="ratingdesc">Mayor Rating</option>
-   </select>
-    <button type="submit" value="Search">Buscar</button>
-  </form>
-         <main class="movie_list">
-             <article>
-            <% movies.forEach(movie => { %>
-                    <div class="">
-                      <a href="/movies/detail/<%= movie.id %>"><h2> <%= movie.title %></h2> </a>
-                    </div>             
-             </article>
-            <% }) %>
-        </main>
+  <header>
+  <%- include('partials/header') %> 
+ </header>
+    <main class="movies_container">
+ <!-- Movies Heading-->
+ <div class="movies_heading">
+  <h2>Películas Recomendadas</h2>
+  </div>
+  <!-- Movie List -->
+  <section class= "movies_box">
+  <% movies.forEach(movie => { %>
+      <article class='movie_item'>
+          <a href="/movies/detail/<%= movie.id %>">
+            <!-- Images -->
+            <div class="movies_img">
+              <img src="/images/joker-folder.jpg" alt="">
+            </div>
+            <!-- Title -->
+            <div class="movie_title">
+              <h3> <%= movie.title %></h3>
+            </div>
+          </a>         
+      </article>
+          <% }) %>
+  </section>
+    </main>
+    <%- include('partials/footer') %> 
 </body>
 </html>

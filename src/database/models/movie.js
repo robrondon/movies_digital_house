@@ -2,7 +2,7 @@ const {sequelize, DataTypes} = require('sequelize');
 const moment = require('moment');
 
 module.exports = (sequelize, DataTypes) => {
-    const movie = sequelize.define('Movie', {
+    const Movie = sequelize.define('Movie', {
         title: { 
             type: DataTypes.STRING,
             allowNull: false
@@ -16,15 +16,26 @@ module.exports = (sequelize, DataTypes) => {
             allowNull:false
         },
         release_date: {
-                type: DataTypes.DATEONLY,
- //note here this is the guy that you are looking for                   
+                type: DataTypes.DATEONLY,                  
                 get() {
-                    return moment(this.getDataValue('release_date')).add(3, 'hours').format('DD/MM/YYYY');
+                    return moment(this.getDataValue('release_date')).add(3, 'hours').format('YYYY-MM-DD');
                 },
             allowNull:false
         },
         length: DataTypes.INTEGER.UNSIGNED,
-        genre_id: DataTypes.INTEGER.UNSIGNED
+        genre_id: DataTypes.INTEGER.UNSIGNED,
+        // images: {
+        //     type: DataTypes.STRING,
+        //     allowNull: false
+        // }
     })
-    return movie;
+
+    Movie.associate = (models => {
+        Movie.belongsTo(models.Genre);
+        Movie.belongsToMany(models.Actor, {
+            as: 'actors',
+            through: 'actor_movie'
+        });
+    })
+    return Movie;
 }
